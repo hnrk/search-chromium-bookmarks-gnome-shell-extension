@@ -14,13 +14,35 @@ const Util = imports.misc.util;
 
 // Useful constants
 // File that contains the chromium bookmarks
-const FILEPATH = GLib.get_home_dir() + "/.config/chromium/Default/Bookmarks";
+const CHROMIUM_BOOKMARKS_PATH = GLib.get_home_dir() + "/.config/chromium/Default/Bookmarks";
+// File that contains the chrome bookmarks
+const CHROME_BOOKMARKS_PATH = GLib.get_home_dir() + "/.config/google-chrome/Default/Bookmarks";
 // Chromium executable file path
 const CHROMIUMPATH = "/usr/bin/chromium-browser";
-// Title in the overview
-const OVERVIEWTITLE = "CHROMIUM BOOKMARKS";
-// Icon used by clutter to display results
-const ICONCLUTTER = "chromium-browser.desktop"
+// Chrome executable file path
+const CHROMEPATH = "/usr/bin/google-chrome";
+
+// Setup "constants" depending on browser (prefer chromium before chrome)
+if (GLib.file_test(CHROMIUM_BOOKMARKS_PATH, GLib.FileTest.EXISTS)) {
+   	// File that contains the bookmarks
+   	FILEPATH = CHROMIUM_BOOKMARKS_PATH;
+   	// Title in the overview 
+   	OVERVIEWTITLE = "CHROMIUM BOOKMARKS";
+   	// Icon used by clutter to display results
+   	ICONCLUTTER = "chromium-browser.desktop"
+   	// Browser path
+   	BROWSER_PATH = CHROMIUMPATH;
+}
+else {
+    	// File that contains the bookmarks
+    	FILEPATH = CHROME_BOOKMARKS_PATH;
+	// Title in the overview 
+    	OVERVIEWTITLE = "CHROME BOOKMARKS";
+    	// Icon used by clutter to display results
+    	ICONCLUTTER = "google-chrome.desktop"
+    	// Browser path
+    	BROWSER_PATH = CHROMEPATH;
+}
 
 // Useful vars
 // Lock the instance of the search provider
@@ -110,7 +132,7 @@ ChromiumBookmarksSearch.prototype =
 	
 	activateResult: function(id) 
 	{
-		Util.spawn([CHROMIUMPATH, '', id.url]);
+		Util.spawn([BROWSERPATH, '', id.url]);
 	},
 	
 	getInitialResultSet: function(terms) 
