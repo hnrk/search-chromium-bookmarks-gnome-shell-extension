@@ -132,7 +132,7 @@ ChromiumBookmarksSearch.prototype =
 	
 	activateResult: function(id) 
 	{
-		Util.spawn([BROWSERPATH, '', id.url]);
+		Util.spawn([BROWSER_PATH, '', id.url]);
 	},
 	
 	getInitialResultSet: function(terms) 
